@@ -1,0 +1,6 @@
+type ProductByIdResponse {
+    owner: User!
+    product: Product!
+    relatedProducts: [Product]!
+}
+#union ProductByIdResponse = User | Product

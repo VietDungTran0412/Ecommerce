@@ -1,0 +1,5 @@
+input OrderInput {
+    contact: ContactInput!
+    payment: PaymentInput!
+    products: [OrderedProductInput]!
+}

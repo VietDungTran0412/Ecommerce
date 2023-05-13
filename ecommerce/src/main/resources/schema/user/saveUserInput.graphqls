@@ -1,0 +1,8 @@
+input SaveUserDto {
+    firstname: String!
+    lastname: String!
+    email:String!
+    password: String!
+    gender: String!
+    dateOfBirth: String!
+}

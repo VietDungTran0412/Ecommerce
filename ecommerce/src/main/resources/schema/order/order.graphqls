@@ -1,0 +1,7 @@
+type Order {
+    id: String!
+    dateJoined: Date!
+    user: User
+    orderedProducts: [Product]!
+    shippingDate: Date!
+}

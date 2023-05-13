@@ -1,0 +1,11 @@
+input ContactInput {
+    firstname: String!
+    lastname: String!
+    address1: String!
+    address2: String
+    state: String!
+    city: String!
+    zipCode: String!
+    phone: String!
+    email: String!
+}

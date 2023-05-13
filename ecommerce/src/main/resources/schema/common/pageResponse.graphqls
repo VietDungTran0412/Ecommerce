@@ -1,0 +1,7 @@
+scalar Object
+scalar Long
+type PageResponse {
+    totalElements: Long!,
+    size: Int!,
+    page: Int!
+}

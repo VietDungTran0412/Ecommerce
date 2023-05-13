@@ -1,0 +1,10 @@
+type User {
+    id: String!
+    email: String!
+    firstname: String!
+    lastname: String!
+    dateJoined: String
+    gender: String
+    dateOfBirth: String
+    products: [Product]
+}

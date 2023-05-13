@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css?family=Cinzel&family=Fauna+One&display=swap');
+* {
+  box-sizing: border-box;
+  font-family: 'Cinzel', 'sans-seric';
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  margin: auto;
+}

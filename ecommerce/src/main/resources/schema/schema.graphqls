@@ -1,0 +1,26 @@
+type Query {
+    getUsers(pageable: PageParams): [User]
+    login(loginRequest: AuthInput!): AuthResponse
+    getProducts(pageable: PageParams!, name: String, price: PriceInput): GetProductsResponse
+    getProductById(id: String!): ProductByIdResponse
+    getPersonalDetails: User
+    sendEmail(to: String): String
+}
+
+type Subscription {
+    getProducts(pageable: PageParams!, name: String, price: PriceInput): GetProductsResponse
+}
+
+type Mutation {
+    register(user: SaveUserDto): AuthResponse
+    createProduct(product: ProductInput!): Product
+    logout : BlackListJwt
+    makeOrder(order: OrderInput!, userId: String): OrderResponse
+    subscribe(email: String!): String!
+    updateScore(score: Float!, productId: String!): String!
+    removeProduct(productId: String!, userId: String!): Product!
+}
+
+scalar Double
+scalar Byte
+

@@ -1,0 +1,7 @@
+type OrderResponse {
+    successUrl: String!
+    cancelUrl: String!
+    order: Order!
+    subTotal: String!
+    paymentUrl: String!
+}

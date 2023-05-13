@@ -1,0 +1,5 @@
+type Image {
+    caption: String!
+    url: String
+    content: [Byte]!
+}

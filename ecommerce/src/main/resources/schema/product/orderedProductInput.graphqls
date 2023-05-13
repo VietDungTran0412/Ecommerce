@@ -1,0 +1,4 @@
+input OrderedProductInput {
+    id: String!
+    quantity: Long!
+}

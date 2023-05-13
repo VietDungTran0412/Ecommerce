@@ -1,0 +1,4 @@
+type GetProductsResponse {
+    pagination: PageResponse
+    products: [Product]!
+}

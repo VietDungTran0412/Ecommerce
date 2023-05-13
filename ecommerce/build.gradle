@@ -1,0 +1,83 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.10'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id "com.netflix.dgs.codegen" version "5.6.5"
+}
+
+
+group = 'com.dung'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }
+}
+ext['kotlin.version'] = '1.4.31'
+dependencies {
+	implementation('org.springframework.boot:spring-boot-starter')
+	implementation('org.springframework.boot:spring-boot-starter-mail')
+	implementation('com.netflix.graphql.dgs:graphql-dgs-extended-scalars')
+	implementation("com.netflix.graphql.dgs:graphql-dgs-subscriptions-websockets-autoconfigure")
+	implementation "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:4.9.16"
+	implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-micrometer")
+
+
+	implementation('com.querydsl:querydsl-apt:5.0.0')
+//	implementation "com.querydsl:querydsl-mongodb:4.4.0"
+	implementation('com.querydsl:querydsl-jpa')
+	compileOnly('com.mysema.querydsl:querydsl-apt:2.7.1')
+
+	implementation('org.springframework.boot:spring-boot-starter-amqp:2.7.3')
+	implementation('com.stripe:stripe-java:22.16.0')
+	implementation('org.imgscalr:imgscalr-lib:4.2')
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	compileOnly('org.projectlombok:lombok')
+	implementation('org.mapstruct:mapstruct:1.5.3.Final')
+	implementation('org.springframework.boot:spring-boot-starter-data-mongodb')
+	implementation('io.jsonwebtoken:jjwt-api:0.11.5')
+	implementation('io.jsonwebtoken:jjwt-impl:0.11.5')
+	implementation('io.jsonwebtoken:jjwt-jackson:0.11.5')
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation('org.springframework.security:spring-security-web')
+	implementation('org.springframework.boot:spring-boot-starter-validation')
+	implementation('org.apache.commons:commons-lang3:3.12.0')
+	implementation('com.graphql-java:graphql-java-extended-scalars:19.0')
+	implementation('javax.annotation:javax.annotation-api:1.3.2')
+//	implementation 'com.google.code.gson:gson:2.8.9'
+
+	annotationProcessor(
+			"com.querydsl:querydsl-apt:5.0.0:jpa",
+			'javax.annotation:javax.annotation-api',
+			"org.mapstruct:mapstruct-processor:1.5.3.Final",
+			'org.projectlombok:lombok'
+	)
+}
+
+//buildscript {
+//	dependencies{
+//		classpath 'com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-gradle:4.4.1'
+//	}
+//}
+
+//ext {
+//	generatedSourcesDir = file("${buildDir}/generated-sources/javac/main/java")
+//}
+//
+//compileJava {
+//	doFirst {
+//		generatedSourcesDir.mkdirs()
+//	}
+//}
+
+generateJava{
+	schemaPaths = ["${projectDir}/src/main/resources/schema"] // List of directories containing schema files
+	packageName = 'com.example.packagename' // The package name to use to generate sources
+	generateClient = true // Enable generating the type safe query API
+}
+
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
