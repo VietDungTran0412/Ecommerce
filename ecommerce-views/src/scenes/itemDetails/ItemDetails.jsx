@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { addToCart } from "../../state";
 import Item from "../../components/Item";
 import { getImage } from "../../utils/getImage";
+import { endpoint } from "../../constants/endpoint";
 
 const GET_PRODUCT_BY_ID = gql`
     query GET_PRODUCT_BY_ID($id: String!){
@@ -78,7 +79,7 @@ export default function ItemDetails() {
     }, [data])
 
     const fetchImage = async () => {
-        await fetch(`http://localhost:8080/image/${itemId}`, {
+        await fetch(`${endpoint}/image/${itemId}`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'image/img',

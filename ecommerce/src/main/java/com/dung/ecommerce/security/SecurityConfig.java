@@ -29,8 +29,7 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
-//@EnableMethodSecurity(securedEnabled = true)
-//@EnableReactiveMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 

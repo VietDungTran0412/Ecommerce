@@ -18,12 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class RabbitConsumer {
     private final ProductService productService;
-//    private static final Gson gson = new Gson();
-
-    @RabbitListener(queues = {"transaction"})
-    public void receive(@Payload String message) {
-        log.info("Transaction Q {}", message);
-    }
 
     @RabbitListener(queues = {RabbitConstants.UPDATE_REVIEWS_QUEUE})
     public void receiveUpdateMessage(@Payload String message) {

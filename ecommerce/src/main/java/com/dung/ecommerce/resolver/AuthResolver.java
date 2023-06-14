@@ -14,6 +14,7 @@ import com.netflix.graphql.dgs.InputArgument;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -38,7 +39,7 @@ public class AuthResolver {
     }
 
     @DgsMutation
-    @Secured("USER")
+    @PreAuthorize("hasAnyAuthority('USER')")
     public BlackListJwt logout() {
         log.info("Log out");
         String jwt = httpServletRequest.getHeader("Authorization").substring(7);

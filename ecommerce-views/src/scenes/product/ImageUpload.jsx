@@ -3,6 +3,7 @@ import { Button, ConfigProvider, Input, Space, Typography, notification } from "
 import Dragger from "antd/es/upload/Dragger";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { endpoint } from "../../constants/endpoint";
 
 
 export default function ImageUpload({ createdId }) {
@@ -11,7 +12,7 @@ export default function ImageUpload({ createdId }) {
     const uploadImage = async (file) => {
         const formData = new FormData();
         formData.append("image", file)
-        await fetch(`http://localhost:8080/image/${createdId}`, {
+        await fetch(`${endpoint}/image/${createdId}`, {
             method: 'POST',
             body: formData
         }).then(res => {
@@ -48,7 +49,7 @@ export default function ImageUpload({ createdId }) {
                         uploadImage(info.file.originFileObj);
                         setIsUploaded(true);
                     }
-                }} action={`http://localhost:8080/image/${createdId}`} listType="picture">
+                }} action={`${endpoint}/image/${createdId}`} listType="picture">
                     <p className="ant-upload-drag-icon">
                         <InboxOutlined />
                     </p>

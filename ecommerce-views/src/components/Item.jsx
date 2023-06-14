@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
 import { addToCart, updateItem } from "../state";
+import { endpoint } from "../constants/endpoint";
 
 
 export default function Item({ item }) {
@@ -14,7 +15,7 @@ export default function Item({ item }) {
     const [image, setImage] = useState(null);
     
     const fetchImage = async () => {
-        await fetch(`http://localhost:8080/image/${item.id}`, {
+        await fetch(`${endpoint}/image/${item.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'image/img',
@@ -27,12 +28,6 @@ export default function Item({ item }) {
             const img = URL.createObjectURL(blob); // create an object URL from the blob
             dispatch(updateItem({...item, image: img}))
             setImage(img);
-        })
-        .catch(er => {
-            notification.error({
-                message: 'Unexpected Error',
-                description: 'There is some unexpected issues during the process of uploading image'
-            })
         })
     }
     useEffect(() => {

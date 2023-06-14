@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,7 +29,7 @@ public class  UserResolver {
         return userService.findAll(page).getContent();
     }
 
-    @Secured("USER")
+    @PreAuthorize("hasAnyAuthority('USER')")
     @DgsQuery
     public User getPersonalDetails() {
         String accessToken = request.getHeader("Authorization").substring(7);

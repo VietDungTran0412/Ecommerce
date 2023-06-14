@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +34,7 @@ public class ProductResolver {
     private final HttpServletRequest request;
     private final ProductService productService;
 
-    @Secured({"USER"})
+    @PreAuthorize("hasAnyAuthority('USER')")
     @DgsMutation
     public Product createProduct(@InputArgument ProductInput product) {
         String jwt = request.getHeader("Authorization").substring(7);

@@ -1,5 +1,27 @@
 version: '3.8'
 services:
+  ecommerce-client:
+    container_name: ecommerce-client
+    image: vietdung13x3/ecommerce-client:linux-amd64-v1.0
+    ports:
+      - "80:80"
+    expose:
+      - 80
+    restart: always
+    
+  ecommerce-server:
+    container_name: ecommerce-server
+    image: vietdung13x3/ecommerce-server:v2.0-prod-linux8 
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    restart: always
+    networks:
+      - ecommerce_network
+    depends_on:
+      - mongodb_ecommerce
+      - rabbitmq_ecommerce
   rabbitmq_ecommerce:
     container_name: rabbitmq_ecommerce
     image: rabbitmq:3.11.14-alpine
@@ -7,7 +29,7 @@ services:
       - "5672:5672"
     expose:
       - 5672
-    restart: on-failure
+    restart: always
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
       - .:/data
@@ -16,15 +38,16 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: EcommerceQ123
       RABBITMQ_DEFAULT_PASS: EcommercePasswordQ1303
-
   smtp_server:
-    container_name: smtp_ecommerce
+    container_name: smtp_server
     image: mailhog/mailhog
     ports:
       - "1025:1025"
       - "8025:8025"
     environment:
       - MH_HOSTNAME=mailhog.com
+    networks:
+      - ecommerce_network
   mongodb_ecommerce:
     container_name: mongodb_ecommerce
     image: mongo:latest
@@ -37,20 +60,6 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=ecommerce0username
       - MONGO_INITDB_ROOT_PASSWORD=ecommerce0password
-    networks:
-      - ecommerce_network
-  mongo_express_ecommerce:
-    container_name: mongoexpress_ecommerce
-    image: mongo-express
-    restart: always
-    ports:
-      - "8081:8081"
-    expose:
-      - 8081
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=ecommerce0username
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=ecommerce0password
-      - ME_CONFIG_MONGODB_SERVER=mongodb_ecommerce
     networks:
       - ecommerce_network
 volumes:

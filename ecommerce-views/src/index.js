@@ -7,6 +7,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './state'
 import { ApolloClient, ApolloProvider, InMemoryCache, gql } from '@apollo/client';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { endpoint } from './constants/endpoint';
 
 const store = configureStore({
   reducer: {cart: cartReducer}
@@ -15,7 +16,7 @@ const store = configureStore({
 
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql',
+  uri: `${endpoint}/graphql`,
   cache: new InMemoryCache()
 })
 

@@ -37,10 +37,4 @@ public class PaymentResolver {
         log.info("Starting creating an order request to ecommerce");
         return orderService.makeOrder(order, userId,OrderMapper.INSTANCE::toOrder);
     }
-
-//    @DgsMutation
-    public String makePayment() throws StripeException {
-        producer.send(RabbitConstants.TRANSACTION_ROUTING_KEY, "Hello World!");
-        return "Success";
-    }
 }

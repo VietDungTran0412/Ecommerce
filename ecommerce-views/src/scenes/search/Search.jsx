@@ -90,7 +90,7 @@ export default function Search() {
             {
                 loading ? <Spin /> :
                     <>
-                        <ShoppingList title={"30 Results found"}/>
+                        <ShoppingList title={`${totalItems} Results found`}/>
                         <Space className="flex m-auto justify-center items-center">
                             <Pagination pageSize={defaultPageSize} total={totalItems} current={current} showSizeChanger={false} onChange={(page) => {
                                 refetch({ page: page - 1 })

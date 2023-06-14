@@ -37,6 +37,9 @@ export default function NavBar() {
             navigate('/');
         }
         if(error) {
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('user');
+            navigate('/');
             notification.error({
                 message: 'Error',
                 description: error.message
