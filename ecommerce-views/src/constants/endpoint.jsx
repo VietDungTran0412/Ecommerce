@@ -1,1 +1,1 @@
-export const endpoint = 'http://3.25.223.1:8080'
+export const endpoint = process.env.REACT_APP_SERVER_ENDPOINT

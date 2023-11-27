@@ -19,6 +19,8 @@ services:
     restart: always
     networks:
       - ecommerce_network
+    environment:
+      - CLIENT_DOMAIN_HOST=http://localhost:80
     depends_on:
       - mongodb_ecommerce
       - rabbitmq_ecommerce

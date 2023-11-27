@@ -49,6 +49,7 @@ const CheckJwt = () => {
 
 
 function App() {
+  console.log(process.env.REACT_APP_SERVER_ENDPOINT)
   return (
     <div className="app">
       <BrowserRouter>
