@@ -83,6 +83,7 @@ public class SecurityConfig {
                 .antMatchers("/graphiql").permitAll()
                 .antMatchers("/graphql").permitAll()
                 .antMatchers("/image/*").permitAll()
+                .antMatchers("/public/api/healthcheck").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

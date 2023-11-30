@@ -1,29 +1,31 @@
+# Run this docker-compose file to launch the db
+
 version: '3.8'
 services:
-  ecommerce-client:
-    container_name: ecommerce-client
-    image: vietdung13x3/ecommerce-client:linux-amd64-v1.0
-    ports:
-      - "80:80"
-    expose:
-      - 80
-    restart: always
+  # ecommerce-client:
+  #   container_name: ecommerce-client
+  #   image: vietdung13x3/ecommerce-client:linux-amd64-v1.0
+  #   ports:
+  #     - "80:80"
+  #   expose:
+  #     - 80
+  #   restart: always
     
-  ecommerce-server:
-    container_name: ecommerce-server
-    image: vietdung13x3/ecommerce-server:v2.0-prod-linux8 
-    ports:
-      - "8080:8080"
-    expose:
-      - 8080
-    restart: always
-    networks:
-      - ecommerce_network
-    environment:
-      - CLIENT_DOMAIN_HOST=http://localhost:80
-    depends_on:
-      - mongodb_ecommerce
-      - rabbitmq_ecommerce
+  # ecommerce-server:
+  #   container_name: ecommerce-server
+  #   image: vietdung13x3/ecommerce-server:v2.0-prod-linux8 
+  #   ports:
+  #     - "8080:8080"
+  #   expose:
+  #     - 8080
+  #   restart: always
+  #   networks:
+  #     - ecommerce_network
+  #   environment:
+  #     - CLIENT_DOMAIN_HOST=http://localhost:80
+  #   depends_on:
+  #     - mongodb_ecommerce
+  #     - rabbitmq_ecommerce
   rabbitmq_ecommerce:
     container_name: rabbitmq_ecommerce
     image: rabbitmq:3.11.14-alpine
@@ -64,6 +66,16 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=ecommerce0password
     networks:
       - ecommerce_network
+  redis:
+    image: redis:7.0-alpine
+    container_name: redis_student_management
+    ports:
+      - "6379:6379"
+    expose:
+      - 6379
+    networks:
+      - ecommerce_network
+
 volumes:
   mongo_data:
   rabbitmq_data:
