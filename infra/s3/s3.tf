@@ -14,7 +14,7 @@ resource "aws_s3_bucket_public_access_block" "public_bucket" {
 data "aws_iam_policy_document" "allow_public_read_access" {
   statement {
     principals {
-      type        = "AWS"
+      type        = "*"
       identifiers = ["*"]
     }
 
