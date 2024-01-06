@@ -33,10 +33,12 @@ It is required to package the Spring Boot App. You can either modify the Dockerf
 ```
 <br/>
 Run the docker-compose command in the root directory of the project to launch the application:
+
 ```bash
 docker compose up -d
 ```
 or 
+
 ```bash
 docker-compose up -d
 ```
@@ -61,7 +63,7 @@ For better client's data retrieval, a GraphQL has been developed using Java Spri
 In the GraphQL development phase, DGS Framework has been used as one of the core library that supported Spring Boot to develop a GraphQL server. This library has been developed my Netflix and in my opinion, it is one of the most robust GraphQL library for Spring Boot. For more information, please refer to the official site of [DGS Framework](https://netflix.github.io/dgs/).
 
 #### [Apollo Client](https://www.apollographql.com/docs/react/)
-From the client, it adopted Apollo Client for better GraphQL operation. Since Apollo Client is very well-documented and beginner's friendly and it also provided multiple useful features like caching, refetching, it s one of the most robust open-source library for GraphQL client at the moment. In the ui development phase, all the interaction between client and the server has been done by using Apollo Client. Please refer to [Apollo Client](https://www.apollographql.com/docs/react) for mor information. 
+The client adopted Apollo Client for robust GraphQL operation to the server. Please refer to [Apollo Client](https://www.apollographql.com/docs/react) for mor information. 
 
 ### 4. MongoDB
 MongoDB has been employed in this project to provide better data storage and flexible schema for the application.
