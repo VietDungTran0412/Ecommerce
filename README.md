@@ -62,7 +62,7 @@ For better client's data retrieval, a GraphQL has been developed using Java Spri
 #### a. [DGS Framework](https://netflix.github.io/dgs)
 In the GraphQL development phase, DGS Framework has been used as one of the core library that supported Spring Boot to develop a GraphQL server. This library has been developed my Netflix and in my opinion, it is one of the most robust GraphQL library for Spring Boot. For more information, please refer to the official site of [DGS Framework](https://netflix.github.io/dgs/).
 
-#### b.[Apollo Client](https://www.apollographql.com/docs/react/)
+#### b. [Apollo Client](https://www.apollographql.com/docs/react/)
 The client adopted Apollo Client for robust GraphQL operation to the server. Please refer to [Apollo Client](https://www.apollographql.com/docs/react) for mor information. 
 
 ### 4. MongoDB
