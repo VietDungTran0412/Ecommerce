@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: dev
+  name: ecommerce-react-service
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /ecommerce
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: ecommerce-react
+    app.kubernetes.io/tier: frontend

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-rabbitmq-deployment
+  namespace: dev
+  labels:
+    tier: queue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: queue
+      name: ecommerce-rabbitmq
+  template:
+    metadata:
+      name: ecommerce-rabbitmq
+      labels:
+        name: ecommerce-rabbitmq
+        tier: queue
+    spec:
+      containers:
+        - name: ecommerce-rabbitmq
+          image: rabbitmq:3.11.14-alpine
+          ports:
+            - containerPort: 5672
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: EcommerceQ123
+            - name: RABBITMQ_DEFAULT_PASS
+              value: EcommercePasswordQ1303
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: subnet.layer
+                    operator: In
+                    values:
+                      - private

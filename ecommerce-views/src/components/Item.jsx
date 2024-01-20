@@ -1,38 +1,15 @@
 import { MinusOutlined, PlusOutlined} from "@ant-design/icons";
-import { Button, Card, Col, Row, Typography, ConfigProvider, Spin, notification } from "antd";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Button, Card, Col, Row, Typography, ConfigProvider  } from "antd";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"
-import { addToCart, updateItem } from "../state";
-import { endpoint } from "../constants/endpoint";
-
+import { addToCart } from "../state";
+import image from '../assets/no-image/no_image_available.jpeg'
 
 export default function Item({ item }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [count, setCount] = useState(1);
-    
-    const [image, setImage] = useState(null);
-    
-    const fetchImage = async () => {
-        await fetch(`${endpoint}/image/${item.id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type' : 'image/img',
-                // 'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
-            }
-        }).then( res =>  {
-            return res.blob()
-        })
-        .then(blob => {
-            const img = URL.createObjectURL(blob); // create an object URL from the blob
-            dispatch(updateItem({...item, image: img}))
-            setImage(img);
-        })
-    }
-    useEffect(() => {
-        fetchImage()
-    }, [])
 
     return (
         <Col className="mb-16 flex justify-center items-center" xxl={{span: 6}} xl={{span: 8}} md={{span: 12}} lg={{span: 8}}  sm={{span: 12}} xs={{span: 24}}>
@@ -42,7 +19,7 @@ export default function Item({ item }) {
                 <img
                     alt="example"
                     className="h-72"
-                    src={image ? image : "https://png.pngtree.com/png-clipart/20220719/original/pngtree-loading-icon-vector-transparent-png-image_8367371.png"}
+                    src={item?.image?.url ? item?.image?.url : image}
                     onClick={() => navigate(`/item/${item.id}`)}
                     style={{cursor: 'pointer'}}
                 />

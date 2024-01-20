@@ -24,10 +24,6 @@ export default function ProductDetails({ setActiveStep, setProduct, product, act
                     <Form.Item label="Category" rules={[baseRule]} name={'category'}>
                         <Select placeholder="Please choose one category!">
                             <Select.Option value="CLOTHES">Clothes</Select.Option>
-                            <Select.Option value="BOOK">Book</Select.Option>
-                            <Select.Option value="HOUSEHOLD">Household</Select.Option>
-                            <Select.Option value="STUDY">Study</Select.Option>
-                            <Select.Option value="FOOD">Food</Select.Option>
                             <Select.Option value="DAILY">Daily</Select.Option>
                         </Select>
                     </Form.Item>

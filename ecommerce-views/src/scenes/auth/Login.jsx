@@ -72,7 +72,7 @@ export default function Login() {
                             </Form.Item>
                         </Col>
                         <Col span={24}>
-                            <Typography.Link href="register">Not had an account yet?</Typography.Link>
+                            <Typography.Link onClick={() => navigate('/register')}>Not had an account yet?</Typography.Link>
                         </Col>
                         <Col className="" span={24}>
                             <ConfigProvider theme={{token: {

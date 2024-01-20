@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dev
+  name: ecommerce-spring-deployment
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ecommerce-spring
+      app.kubernetes.io/tier: backend
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ecommerce-spring
+        app.kubernetes.io/tier: backend
+    spec:
+      containers:
+        - name: ecommerce-spring
+          image: vietdung13x3/ecommerce-server:v1.0
+          envFrom:
+            - configMapRef:
+                name: ecommerce-configmap
+            - secretRef:
+                name: mongodb-secret
+            - secretRef:
+                name: rabbitmq-secret
+          ports:
+            - containerPort: 80
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: subnet.layer
+                    operator: In
+                    values:
+                      - private
+

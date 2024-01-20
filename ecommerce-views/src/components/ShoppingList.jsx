@@ -6,6 +6,7 @@ import Item from "./Item";
 export default function ShoppingList({title}) {
 
   const items = useSelector(state => state.cart.items);
+  console.log("shopping list: ", items)
 
   return (
     <div className="mt-20 w-4/5 m-auto flex flex-col justify-center items-center">

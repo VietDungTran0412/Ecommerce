@@ -1,1 +1,1 @@
-export const endpoint = process.env.REACT_APP_SERVER_ENDPOINT
+export const endpoint = "http://localhost:8080"

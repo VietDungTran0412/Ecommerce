@@ -44,7 +44,7 @@ export default function CartMenu() {
                                 return (
                                     <Row className='my-8' key={i}>
                                         <Col span={12}>
-                                            <img className='w-4/5 h-full' src={ item.image ? item.image :"https://cdn.shopify.com/s/files/1/2724/6858/collections/Untitled-11111_360x.jpg?v=1680047469"}
+                                            <img className='w-4/5 h-full' src={ item?.image?.url ? item?.image?.url :"https://cdn.shopify.com/s/files/1/2724/6858/collections/Untitled-11111_360x.jpg?v=1680047469"}
                                                 alt="item"
                                                 // style={{
                                                 //     width: '180px',

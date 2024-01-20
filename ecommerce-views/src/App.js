@@ -8,7 +8,7 @@ import NavBar from "./scenes/global/NavBar";
 import { ConfigProvider, notification } from "antd";
 import CartMenu from "./scenes/global/CartMenu";
 import Footer from "./scenes/global/Footer";
-import NotFound from "./scenes/NotFound/NotFound";
+import NotFound from "./scenes/notfound/NotFound";
 import Profile from "./scenes/user/Profile";
 import Register from "./scenes/auth/Register";
 import Login from "./scenes/auth/Login";
@@ -18,6 +18,7 @@ import Search from "./scenes/search/Search";
 import Success from "./scenes/result/Success";
 import Cancel from "./scenes/result/Cancel";
 import ImageUpload from "./scenes/product/ImageUpload";
+import UpdateImage from "./scenes/updateImage/UpdateImage";
 
 
 const ScrollToTop = () => {
@@ -49,10 +50,9 @@ const CheckJwt = () => {
 
 
 function App() {
-  console.log(process.env.REACT_APP_SERVER_ENDPOINT)
   return (
     <div className="app">
-      <BrowserRouter>
+      <BrowserRouter basename={'/ecommerce'}>
         <CheckJwt />
         <ScrollToTop />
         <ConfigProvider theme={{
@@ -75,6 +75,7 @@ function App() {
             <Route path="search" element={<Search/>}/>
             <Route path="checkout/success" element={<Success/>}/>
             <Route path="checkout/cancel" element={<Cancel/>}/>
+            <Route path="item/:itemId/updateImage" element={<UpdateImage/>}/>
           </Routes>
           <Footer />
         </ConfigProvider>

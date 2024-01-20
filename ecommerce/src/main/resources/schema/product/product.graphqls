@@ -3,11 +3,12 @@ type Product {
     shortDescription: String!,
     longDescription: String!,
     quantity: Int!,
-    phone: Long!,
+    phone: String!,
     email: String!,
     address: String!,
     id: String,
     category: String,
     price: Double,
     rate: ProductRate,
+    image: Image
 }

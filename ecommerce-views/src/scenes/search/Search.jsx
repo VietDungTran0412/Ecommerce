@@ -20,6 +20,10 @@ const SEARCH = gql`
                 price,
                 category,
                 longDescription,
+                image {
+                    url,
+                    caption
+                }
                 rate {
                     score
                 }

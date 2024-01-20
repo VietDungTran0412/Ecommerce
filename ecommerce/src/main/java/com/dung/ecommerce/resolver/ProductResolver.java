@@ -42,7 +42,17 @@ public class ProductResolver {
         return productService.saveProductByAuth(product, jwt, ProductMapper.INSTANCE::toProduct);
     }
 
+    @PutMapping("/image/{productId}")
+    public ResponseEntity<String> uploadImageToS3(@RequestBody MultipartFile image, @PathVariable String productId) {
+        if(Optional.ofNullable(image).isPresent()) {
+            productService.uploadImageToS3(productId, image);
+            log.info("Upload image from client to S3 bucket");
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Success");
+    }
+
     @PostMapping("/image/{id}")
+    @Deprecated
     public ResponseEntity<String> uploadImage(@RequestBody MultipartFile image, @PathVariable String id) throws IOException {
         if(Optional.ofNullable(image).isPresent()) {
             log.info("Saving Image to ecommerce with id: {}", id);

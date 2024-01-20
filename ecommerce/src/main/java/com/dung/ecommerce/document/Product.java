@@ -22,7 +22,7 @@ public class Product {
     @Id
     private String id;
     private String name;
-    private Long phone;
+    private String phone;
     private String email;
     private String address;
     @Indexed(direction = IndexDirection.DESCENDING)

@@ -6,30 +6,38 @@ import { useNavigate } from "react-router-dom";
 import { endpoint } from "../../constants/endpoint";
 
 
-export default function ImageUpload({ createdId }) {
-    const[isUploaded, setIsUploaded] = useState(false);
+export default function ImageUpload({ createdId, isUploaded, setIsUploaded }) {
     const navigate = useNavigate();
     const uploadImage = async (file) => {
         const formData = new FormData();
         formData.append("image", file)
         await fetch(`${endpoint}/image/${createdId}`, {
-            method: 'POST',
+            method: 'PUT',
             body: formData
         }).then(res => {
-            notification.success({
-                message: "Success",
-                description: 'Save Image to Ecommerce successfully!'
-            })
+            if(res.status !== 202) {
+                notification.error({
+                    message: "Error",
+                    description: 'Error when uploading image!'
+                })
+            } else {
+                notification.success({
+                    message: "Success",
+                    description: 'Successfully updated your item!'
+                })
+            }
+            setIsUploaded(true);
         }).catch(error => {
             notification.error({
                 message: "Error",
                 description: 'Unexpected Error!'
             })
+            setIsUploaded(true);
         })
     }
 
     return (
-        <div className="h-full my-12">
+        <div className="h-full w-full">
 
             <ConfigProvider theme={{
                 token: {
@@ -47,7 +55,6 @@ export default function ImageUpload({ createdId }) {
                 <Dragger maxCount={1} onChange={(info) => {
                     if (info.file.status === "done") {
                         uploadImage(info.file.originFileObj);
-                        setIsUploaded(true);
                     }
                 }} action={`${endpoint}/image/${createdId}`} listType="picture">
                     <p className="ant-upload-drag-icon">

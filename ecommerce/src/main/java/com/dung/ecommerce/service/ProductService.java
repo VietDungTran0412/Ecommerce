@@ -1,5 +1,11 @@
 package com.dung.ecommerce.service;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.dung.ecommerce.document.Product;
 import com.dung.ecommerce.document.User;
 import com.dung.ecommerce.document.attribute.Image;
@@ -20,7 +26,7 @@ import com.example.packagename.types.PriceInput;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.message.SimpleMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -40,6 +47,12 @@ public class ProductService extends BaseService<String, Product, ProductReposito
     private final JwtService jwtService;
     private final ImageService imageService;
     private final RabbitProducer producer;
+    @Value("${s3.bucket.name}")
+    private String bucketName;
+
+    @Value("${aws.region}")
+    private String s3Region;
+
     protected ProductService(ProductRepository repository, UserService userService, JwtService jwtService,
                              UserRepository userRepository, ImageService imageService, RabbitProducer producer) {
         super(repository);
@@ -94,6 +107,44 @@ public class ProductService extends BaseService<String, Product, ProductReposito
         return product;
     }
 
+    public Product uploadImageToS3(String productId, MultipartFile image) {
+        log.info("Started saving image to product {} with {}", productId, image.getOriginalFilename());
+        String prefixUrl = "https://" + bucketName + ".s3" + "." + s3Region + ".amazonaws.com/";
+        Optional<Product> productWrp = repository.findById(productId);
+        AmazonS3 s3client = AmazonS3ClientBuilder.standard()
+                .withRegion(s3Region)
+                .build();
+        String fileName =  productId + "/" + image.getOriginalFilename();
+        if(!productWrp.isPresent()) {
+            throw new NotFoundException("No product with id " + productId);
+        }
+        Product product = productWrp.get();
+        // Check if image already existed --> Remove
+        if(Optional.of(product.getImage()).isPresent()) {
+            String existedImageUrl = product.getImage().getUrl();
+            String objectKey = existedImageUrl.substring(prefixUrl.length(), existedImageUrl.length() - 1);
+            s3client.deleteObject(bucketName, objectKey);
+        }
+        Image imageToSave = new Image();
+        try {
+            InputStream file = imageService.resizeImage(image, 500, 650);
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(image.getContentType());
+            s3client.putObject(new PutObjectRequest(bucketName, fileName, file, metadata));
+            imageToSave.setUrl(prefixUrl + fileName);
+            imageToSave.setCaption("image/product");
+            product.setImage(imageToSave);
+            log.info("Resized image successfully!");
+            return repository.save(product);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        } catch (AmazonClientException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+    
     @Transactional(rollbackFor = Exception.class)
     public Product uploadImage(String id, MultipartFile image) throws IOException {
         log.info("Started saving image to product {} with {}", id, image.getOriginalFilename());
@@ -126,7 +177,7 @@ public class ProductService extends BaseService<String, Product, ProductReposito
         Category category = product.getCategory();
         List<Product> relatedList = repository.findProductByCategory(category)
                 .stream()
-                .filter(product1 -> product != product1)
+                .filter(product1 -> !product.getId().equals(product1.getId()))
                 .sorted((product1, product2) -> Float.compare(product2.getRate().getScore(), product1.getRate().getScore())
                 )
                 .collect(Collectors.toList());

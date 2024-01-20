@@ -42,37 +42,37 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=ecommerce0password
     networks:
       - ecommerce_network
-  ecommerce-client:
-    container_name: ecommerce-client
-    image: ecommerce-client
-    build:
-      context: .
-      dockerfile: Dockerfile.client
-    ports:
-      - "80:80"
-    expose:
-      - 80
-    restart: always
-
-  ecommerce-server:
-    container_name: ecommerce-server
-    build:
-      context: .
-      dockerfile: Dockerfile.server
-    image: ecommerce-server
-    ports:
-      - "8080:8080"
-    expose:
-      - 8080
-    restart: always
-    networks:
-      - ecommerce_network
-    environment:
-      - CLIENT_DOMAIN_HOST=http://localhost:80
-      - ENVIRONMENT=dev
-    depends_on:
-      - mongodb_ecommerce
-      - rabbitmq_ecommerce
+#  ecommerce-client:
+#    container_name: ecommerce-client
+#    image: ecommerce-client
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.client
+#    ports:
+#      - "80:80"
+#    expose:
+#      - 80
+#    restart: always
+#
+#  ecommerce-server:
+#    container_name: ecommerce-server
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.server
+#    image: ecommerce-server
+#    ports:
+#      - "8080:8080"
+#    expose:
+#      - 8080
+#    restart: always
+#    networks:
+#      - ecommerce_network
+#    environment:
+#      - CLIENT_DOMAIN_HOST=http://localhost:80
+#      - ENVIRONMENT=dev
+#    depends_on:
+#      - mongodb_ecommerce
+#      - rabbitmq_ecommerce
 volumes:
   mongo_data:
   rabbitmq_data:

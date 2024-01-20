@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter
 public class ProductInput {
     private String name;
-    private Long phone;
+    private String phone;
     private String email;
     private String address;
     private Category category;

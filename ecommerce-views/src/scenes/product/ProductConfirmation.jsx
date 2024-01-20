@@ -12,7 +12,7 @@ const CREATE_PRODUCT = gql`
         $quantity: Int!, 
         $category: String!, 
         $address: String!, 
-        $phone: Long!, 
+        $phone: String!, 
         $email: String!) {
         createProduct(product: {
             name: $name, 
@@ -49,6 +49,7 @@ export default function ProductConfirmation({ product, setActiveStep, activeStep
             })
             setActiveStep(activeStep + 1);
             setCreatedId(data.createProduct?.id);
+
         }
         if(error) {
             notification.error({

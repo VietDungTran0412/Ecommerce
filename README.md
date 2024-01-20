@@ -6,7 +6,10 @@
 - [Technologies](#technologies-specification)
   - [ReactJS](#1-reactjs)
   - [Java Spring Boot](#2-java-spring-boot-)
+  - [GraphQL](#3-graphql)
   - [MongoDB](#4-mongodb)
+  - [RabbitMQ](#5-rabbitmq)
+- [Features](#features)
 
 ## Overview
 Welcome to our E-Commerce Application! This application is designed to provide a seamless online shopping experience for users. It includes features for browsing products, managing user accounts, processing orders, and more. This README will guide you through the setup and usage of the application. 
@@ -72,4 +75,50 @@ MongoDB has been employed in this project to provide better data storage and fle
 In the development process, the application integrated with Stripe for virtual payment implementation. Because you can not retrieve that status of the deployment immediately so the queue
 would be used for retrieving the status of the payment and store in the database later
 
+## Features
+
+### 1. Home Page
+The home page using carousel and show up some products
+![Home Page](features/home.png)
+### 5. Checkout
+Stripe Integration to deliver check-out feature.
+
 ## AWS Deployment Specification
+
+### 1. Prerequisite
+
+The very first set up in deployment phase is launching MongoDB. Please refer to [Mongo Atlas](https://www.mongodb.com/) 
+for more information. Please note that you can for you can either choose to enable VPC Peering Connection or just simple
+database deployment (free tier eligible)
+
+### 2. Infrastructure Provisioning
+The whole infrastructure would be provisioned using Terraform which has been located in `k8s-infra` directory.
+<br/>
+From the `k8s-infra` directory, initialize terraform project:
+```bash
+terraform init
+```
+To apply the configuration:
+```bash
+terraform apply -var-file=variables.tfvars -auto-approve
+```
+
+Note that it is essential to export the aws access key and secret key and install AWS CLI in your local machine to run Terraform. <br/><br/>
+The application is going to be deployed in EKS. To expose the back-end and front-end service, I ultilized Application Load
+Balancer. For setting up EKS cluster with ALB, please refer to https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html.
+
+### 3. Config Map and Secrets
+Specify the non-critical data in the application configmap. Credentials like DB password or RabbitMQ username and password should be stored
+in the format of encoded base 64 string. To apply the configuration:
+```bash
+kubectl apply -f config-map.yaml
+```
+
+For the secrets:
+```bash
+kubectl apply -f secrets.yaml
+```
+
+### 4. Pods Deployment
+To apply the deployment into the cluster, apply all the deployment declarative files in `k8s-spec` directory. Note that it is essential to push the image
+into Docker Registry beforehand so the image could pull the image

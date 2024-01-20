@@ -108,7 +108,7 @@ export default function Register() {
                             </Form.Item>
                         </Col>
                         <Col span={24}>
-                            <Typography.Link href="login">Already had an account?</Typography.Link>
+                            <Typography.Link onClick={() => navigate('/login')}>Already had an account?</Typography.Link>
                         </Col>
                         <Col className="mt-8 mb-16" span={24}>
                             <ConfigProvider theme={{token: {

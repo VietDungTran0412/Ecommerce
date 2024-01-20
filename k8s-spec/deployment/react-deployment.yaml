@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dev
+  name: ecommerce-react-deployment
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ecommerce-react
+      app.kubernetes.io/tier: frontend
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ecommerce-react
+        app.kubernetes.io/tier: frontend
+    spec:
+      containers:
+        - name: ecommerce-react
+          image: vietdung13x3/ecommerce-client:v1.1
+          ports:
+            - containerPort: 80
+
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: subnet.layer
+                    operator: In
+                    values:
+                      - private

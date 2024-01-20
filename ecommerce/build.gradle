@@ -23,6 +23,11 @@ dependencies {
 	implementation "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:4.9.16"
 	implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-micrometer")
 
+//	AWS SDK
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.633'
+
+	implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.17'
+
 
 	implementation('com.querydsl:querydsl-apt:5.0.0')
 //	implementation "com.querydsl:querydsl-mongodb:4.4.0"

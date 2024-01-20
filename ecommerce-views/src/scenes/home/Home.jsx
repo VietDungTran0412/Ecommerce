@@ -18,6 +18,9 @@ const GET_USERS = gql`
             price,
             category,
             longDescription,
+            image {
+                url,
+            },
             rate {
                 score
             }
@@ -45,6 +48,7 @@ export default function Home() {
           dispatch(setItems(data.getProducts.products));
         }
         if (error) {
+            console.error(error)
           notification.error({
             message: 'Error',
             description: 'Internal Server Error!'

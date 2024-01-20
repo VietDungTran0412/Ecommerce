@@ -22,5 +22,4 @@ type Mutation {
 }
 
 scalar Double
-scalar Byte
 

@@ -49,6 +49,9 @@ export default function Profile() {
         if(data) {
             setUser(data.getPersonalDetails)
         }
+        if(error) {
+            localStorage.removeItem('jwt')
+        }
     }, [data, error])
 
     if(!localStorage.getItem('jwt')) {
@@ -78,10 +81,10 @@ export default function Profile() {
                                 <Typography.Text className="text-base">Date Of Birth: {moment(user?.dateOfBirth).format('DD/MM/YYYY')}</Typography.Text>
                             </Col>
                             <Col span={24}>
-                                <Typography.Text className="text-base" italic>Contact: vansjd@gmail.com</Typography.Text>
+                                <Typography.Text className="text-base" italic>Contact: {user?.email}</Typography.Text>
                             </Col>
                             <Col span={24}>
-                                <Typography.Link href="/createProduct">Selling a product?</Typography.Link>
+                                <Typography.Link href="createProduct">Selling a product?</Typography.Link>
                             </Col>
                         </Row>
                     </Col>

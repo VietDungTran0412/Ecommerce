@@ -1,13 +1,12 @@
 import { MinusOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Button, Col, ConfigProvider, Divider, Rate, Row, Space, Tabs, Typography, notification } from "antd";
+import { Button, Col, ConfigProvider, Divider, Rate, Row, Space, Tabs, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux"
 import { useParams } from "react-router-dom";
 import { addToCart } from "../../state";
 import Item from "../../components/Item";
-import { getImage } from "../../utils/getImage";
-import { endpoint } from "../../constants/endpoint";
+import image from '../../assets/no-image/no_image_available.jpeg'
 
 const GET_PRODUCT_BY_ID = gql`
     query GET_PRODUCT_BY_ID($id: String!){
@@ -25,6 +24,9 @@ const GET_PRODUCT_BY_ID = gql`
                 quantity,
                 category,
                 price,
+                image {
+                    url,
+                },
                 rate{
                     numOfRate,
                     score,
@@ -38,6 +40,9 @@ const GET_PRODUCT_BY_ID = gql`
                 quantity,
                 category,
                 price,
+                image {
+                    url
+                },
                 rate {
                     numOfRate,
                     score
@@ -61,7 +66,6 @@ export default function ItemDetails() {
     const [owner, setOwner] = useState({});
     const [item, setItem] = useState({});
     const [updateScore] = useMutation(UPDATE_RATE);
-    const [image, setImage] = useState(null);
     
 
     const { data } = useQuery(GET_PRODUCT_BY_ID, {
@@ -74,30 +78,14 @@ export default function ItemDetails() {
         if (data) {
             setItem({ ...data.getProductById.product, relatedProducts: data.getProductById.relatedProducts });
             setOwner(data.getProductById.owner);
-            fetchImage();
         }
     }, [data])
-
-    const fetchImage = async () => {
-        await fetch(`${endpoint}/image/${itemId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type' : 'image/img',
-                // 'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
-            }
-        }).then( res =>  {
-            return res.blob()
-        })
-        .then(blob => {
-            const img = URL.createObjectURL(blob); // create an object URL from the blob
-            setImage(img);
-        })
-    }
+    console.log(item)
 
     return (
         <Row className="m-auto my-24 w-4/5" justify={'space-between'}>
-            <Col xxl={{ span: 8 }} xl={{ span: 8 }} lg={{ span: 8 }} md={{ span: 10 }} xs={{ span: 24 }}>
-                <img className="w-full h-full max-h-96" src={image ? image : "https://png.pngtree.com/png-clipart/20220719/original/pngtree-loading-icon-vector-transparent-png-image_8367371.png"} alt="image" />
+            <Col xxl={{ span: 8 }} xl={{ span: 8 }} lg={{ span: 8 }} md={{ span: 10 }} xs={{ span: 24 }} className={'flex justify-center items-center'}>
+                <img className="w-3/4" src={item?.image?.url ? item?.image?.url : image} alt="image" />
             </Col>
             <Col span={12} className="">
                 <Space direction="vertical" >
@@ -138,7 +126,7 @@ export default function ItemDetails() {
                                 colorPrimary: '#2b2b2b'
                             }
                         }}>
-                            <Button onClick={() => dispatch(addToCart({ item: { ...item, count: count, image: image } }))} className="ml-12" type="primary">ADD TO CART</Button>
+                            <Button onClick={() => dispatch(addToCart({ item: { ...item, count: count } }))} className="ml-12" type="primary">ADD TO CART</Button>
                         </ConfigProvider>
                     </Space>
                     <Row className="w-4/5">

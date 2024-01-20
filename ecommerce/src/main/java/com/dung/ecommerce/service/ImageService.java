@@ -1,6 +1,7 @@
 package com.dung.ecommerce.service;
 
 import lombok.AllArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 @AllArgsConstructor
@@ -24,5 +26,19 @@ public class ImageService {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         ImageIO.write(resizedImg,"png", output);
         return output.toByteArray();
+    }
+    public InputStream resizeImage(MultipartFile file, int width, int height) throws IOException {
+        BufferedImage resizedImage = Thumbnails.of(file.getInputStream())
+                .size(width, height)
+                .outputFormat("jpeg") // Choose the desired output format
+                .asBufferedImage();
+        InputStream inputStream = imageToInputStream(resizedImage);
+        return inputStream;
+    }
+    private InputStream imageToInputStream(BufferedImage image) throws IOException {
+        // Convert BufferedImage to InputStream
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpeg", os);
+        return new ByteArrayInputStream(os.toByteArray());
     }
 }

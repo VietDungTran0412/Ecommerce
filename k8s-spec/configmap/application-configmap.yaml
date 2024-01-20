@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecommerce-configmap
+  namespace: dev
+data:
+  MONGODB_CLUSTER_DOMAIN: "dtran-cluster.8ktyrac.mongodb.net"
+  CLIENT_DOMAIN_NAME: "http://localhost:80"
+  ENVIRONMENT: "prod"
+  CLIENT_DOMAIN_HOST: "http://localhost:80"
+  SMTP_HOST: "http://localhost:5251"
+  RABBITMQ_HOST: "rabbitmq-service"
+  S3_BUCKET_NAME: "dtran-ecommerce-bucket"
+  AWS_REGION: "ap-southeast-4"
+  RABBITMQ_PORT: "5672"

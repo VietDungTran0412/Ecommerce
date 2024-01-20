@@ -1,0 +1,19 @@
+# Docker Compose file only for build purpose
+version: '3'
+services:
+  ecommerce-server:
+    image: vietdung13x3/ecommerce-server:v1.0
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+      - "8080:8080"
+    platform: linux/amd64
+  ecommerce-client:
+    image: vietdung13x3/ecommerce-client:v1.1
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    ports:
+      - "80:80"
+    platform: linux/amd64

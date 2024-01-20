@@ -3,7 +3,7 @@ input ProductInput {
     name: String!
     category: String!
     price: Double!
-    phone: Long!
+    phone: String!
     email: String!
     address: String!
     shortDescription: String!

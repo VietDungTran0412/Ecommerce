@@ -13,7 +13,7 @@ export default function CreateProduct() {
     const [createdId, setCreatedId] = useState();
 
     if(!localStorage.getItem('jwt')) {
-        return <Navigate to={'login'}/>
+        return <Navigate to={'/login'}/>
     }
     return (
         <div className="flex m-auto justify-center">
@@ -23,7 +23,7 @@ export default function CreateProduct() {
                             colorPrimary: '#2b2b2b',
                         }
                     }}>
-                        <Steps type="default" current={activeStep} items={[
+                        <Steps className={'mb-8'} type="default" current={activeStep} items={[
                             {
                                 title: 'Product Information',
                                 description: 'Fill the product information',
@@ -43,7 +43,6 @@ export default function CreateProduct() {
                     : activeStep === 1 ? <ProductConfirmation setCreatedId={setCreatedId} activeStep={activeStep} product={product} setActiveStep={setActiveStep}/>
                     : <ImageUpload createdId={createdId}/>
                 }
-                <Outlet/>
             </Space>
         </div>
     )
