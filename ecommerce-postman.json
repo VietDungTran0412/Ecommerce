@@ -1,0 +1,417 @@
+{
+	"info": {
+		"_postman_id": "ed9cffa7-86cf-421f-b18a-ecaa4e8df06b",
+		"name": "Ecommerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23479253"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Log In",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json();",
+									"pm.environment.set(\"AccessToken\", \"Bearer \" + resp.data.login.accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query LOG_IN{\n  login(loginRequest: {email: \"vietdung13x31@gmaila.ccaa\", password: \"vietdung13x3\"}) {\n    accessToken,\n    user {\n        id\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}",
+							"host": [
+								"{{endpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json();",
+									"pm.environment.set(\"AccessToken\", \"Bearer \" + resp.data.register.accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2aWV0ZHVuZzEzeDNAZ21haWxhLmNjYWEiLCJpYXQiOjE3MDEwNzUzMDUsImV4cCI6MTcwMTE2MTcwNX0.8zedeDV4oLhqMMUjywt3KGLP8VxT5qDWGM67aOSPJV8",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation{\n    register(user: {\n        firstname: \"Daniel\",\n        lastname: \"Tran\",\n        dateOfBirth: \"12/02/2000\",\n        email: \"vietdung13x31@gmaila1.ccaa\",\n        gender: \"MALE\",\n        password: \"vietdung13x3\"\n    }) {\n        accessToken,\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://k8s-dev-ecommerc-3c69be3041-1285606908.ap-southeast-4.elb.amazonaws.com:8080/graphql",
+							"protocol": "http",
+							"host": [
+								"k8s-dev-ecommerc-3c69be3041-1285606908",
+								"ap-southeast-4",
+								"elb",
+								"amazonaws",
+								"com"
+							],
+							"port": "8080",
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log Out",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AccessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation {\n    logout {\n        jwt\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}",
+							"host": [
+								"{{endpoint}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AccessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateProduct($name: String!, \n        $price: BigDecimal!, $shortDescription: String!, $longDescription: String!, $quantity: Int!, $category: String!, $address: String!, $phone: String!, $email: String!) {\n    createProduct(product: {name: $name, price: $price, shortDescription: $shortDescription, longDescription: $longDescription, quantity: $quantity, category: $category, address: $address, phone: $phone, email: $email}) {\n        name,\n        id\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}",
+							"host": [
+								"{{endpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query GetProducts{\n    getProducts(pageable: {page: 0, size: 10}, name: \"\", price: null) {\n        products {\n            id,\n            name,\n            shortDescription,\n            quantity,\n            price,\n            category,\n            longDescription,\n            image {\n                url,\n                caption\n            },\n            rate {\n                score\n            }\n        },\n        pagination {\n            size,\n            totalElements\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://k8s-dev-ecommerc-3c69be3041-1285606908.ap-southeast-4.elb.amazonaws.com:8080/graphql",
+							"protocol": "http",
+							"host": [
+								"k8s-dev-ecommerc-3c69be3041-1285606908",
+								"ap-southeast-4",
+								"elb",
+								"amazonaws",
+								"com"
+							],
+							"port": "8080",
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By Id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query GET_PRODUCT_BY_ID{\n    getProductById(id: \"659e84735cbd9049bbcc733a\") {\n        owner {\n            firstname,\n            lastname,\n            id\n        }\n        product {\n            name,\n            shortDescription,\n            longDescription,\n            quantity,\n            category,\n            price,\n            image {\n                url,\n                caption\n            },\n            rate{\n                score,\n            },\n        }\n        relatedProducts {\n            id,\n            name,\n            shortDescription,\n            longDescription,\n            quantity,\n            category,\n            price,\n            phone,\n            address,\n            image {\n                url,\n                caption\n            },\n            email,\n            rate {\n                score\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}",
+							"host": [
+								"{{endpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AccessToken}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "# mutation {\n#     subscribe(email: \"vietdung\")\n# }\nquery SendEmail($to: String){\n    sendEmail(to: $to)\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}",
+							"host": [
+								"{{endpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Score",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation {\n    updateScore(score: 3.2, productId: \"64524adc40c597583df2bdbc\")\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}",
+							"host": [
+								"{{endpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image To S3",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2aWV0ZHVuZzEzeDMxQGdtYWlsYTEuY2NhYSIsImlhdCI6MTcwNTA2MjQwNiwiZXhwIjoxNzA1MTQ4ODA2fQ.N_3DYpEnqwvDupc68ImfuRprl2xjAxvuhuhRl2FaPy8",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{endpoint}}/image/659e3e237183dd596155ffcd",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"image",
+								"659e3e237183dd596155ffcd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AccessToken}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query GET_USERS{\n    getUsers(pageable: {page:0, size: 2}) {\n        firstname,\n        lastname,\n        products {\n            id,\n            name,\n            shortDescription,\n            quantity,\n            price,\n            category,\n            longDescription,\n            rate {\n                score\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}",
+							"host": [
+								"{{endpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Personal Details",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AccessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query PersonalDetails {\n    getPersonalDetails {\n        id,\n        firstname,\n        lastname,\n        gender,\n        dateOfBirth,\n        email,\n        products {\n            name,\n            price,\n            shortDescription,\n            quantity,\n            id,\n            category,\n            rate {\n                numOfRate,\n                score\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}",
+							"host": [
+								"{{endpoint}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Make Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AccessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation MakeOrder($shippingContact: ContactInput!, $billingContact: ContactInput! ,$products: [OrderedProductInput]!) {\n    makeOrder(\n    userId: \"\",\n    order: {\n        contact: $shippingContact,\n        payment: {\n            paymentContact: $billingContact\n        },\n        products: $products\n    }) {\n        successUrl,\n        cancelUrl,\n        paymentUrl\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}",
+							"host": [
+								"{{endpoint}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
