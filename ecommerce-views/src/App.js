@@ -52,7 +52,7 @@ const CheckJwt = () => {
 function App() {
   return (
     <div className="app">
-      <BrowserRouter basename={'/ecommerce'}>
+      <BrowserRouter basename={'ecommerce'}>
         <CheckJwt />
         <ScrollToTop />
         <ConfigProvider theme={{

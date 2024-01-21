@@ -80,8 +80,22 @@ would be used for retrieving the status of the payment and store in the database
 ### 1. Home Page
 The home page using carousel and show up some products
 ![Home Page](features/home.png)
+
+### 2. Checking Product Detail
+The product detail would provide information about that product in details.
+![Product Detail](features/product-details.png)
+
+### 3. Searching and Shopping Cart
+The application enables to search for the products by their name and add to cart.
+![Search and Shopping Cart](features/search-shopping-cart.png)
+
+### 4. Authentication
+User could log in and register to ecommerce application using their email.
+![Authentication](features/authentication.png)
+
 ### 5. Checkout
 Stripe Integration to deliver check-out feature.
+![Checkout](features/checkout.png)
 
 ## AWS Deployment Specification
 
