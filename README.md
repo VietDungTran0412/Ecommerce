@@ -16,6 +16,9 @@ Welcome to our E-Commerce Application! This application is designed to provide a
 
 This is a full-stack web application project from end to end including the development process which consisted of web frameworks like ReactJs and Java Spring Boot and the deployment process into AWS using different services.
 
+## Architecture Diagram
+![Architecture Diagram](features/architecture-aws.png)
+
 ## Usage
 
 ### 1. Prerequisite
